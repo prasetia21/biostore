@@ -1,0 +1,79 @@
+.frm-search {
+    width: 100%;
+}
+
+.btn-verify {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bg-billing {
+    background-color: #e8e8e8;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.logo-header {
+    max-width: 200px;
+    max-height: 150px;
+    width: 120px;
+}
+
+.bv-payment-23122 {
+    display: none;
+}
+
+.profile-btn-sec {
+    margin: 0 auto;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    background: #fff;
+    border: 1px solid #ececec;
+    height: 64px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 20px;
+    padding-top: 15px;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product-page2-cart-btn a {
+    background: #e98e05;
+    width: 50px;
+    border-radius: 8px;
+    height: 48px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.product-page2-cart-btn a {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.product-page2-flex {
+    display: flex;
+    gap: 5px;
+}
+
+.row.shipping_calculator.note {
+    margin-top: -90px;
+}
+
+.badge.bg-danger.badge-custom {
+    padding: 15px;
+}
