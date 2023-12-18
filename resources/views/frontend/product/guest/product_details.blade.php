@@ -335,12 +335,12 @@
         </div>
     </div>
 
-    <div class="row mt-60">
+    <div class="mt-60">
         <div class="col-12">
             <h2 class="section-title style-1 mb-30">Related products</h2>
         </div>
         <div class="col-12">
-            <div class="row related-products">
+            <div class="related-products">
 
 
                 @foreach ($relatedProduct as $product)
