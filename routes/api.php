@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\TesController;
+use App\Http\Controllers\Api\TokenNinjaController;
 use App\Http\Controllers\User\MidtransController;
 use App\Http\Controllers\Guest\User\MidtransGuestController;
 use Illuminate\Http\Request;
@@ -22,3 +24,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('webhook', [MidtransController::class, 'midtransHandler']);
+
+Route::get('tes/{id}', [TesController::class, 'index']);
+Route::post('pos', [TesController::class, 'posting']);
+
+Route::post('generate-token', [TokenNinjaController::class, 'generateAccessToken']);
+
+Route::group(['middleware' => 'check-token'], function(){
+    Route::get('tes/{id}', [TesController::class, 'index']);
+}); 

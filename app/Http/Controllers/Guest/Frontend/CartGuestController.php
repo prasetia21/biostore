@@ -9,9 +9,11 @@ use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Coupon;
+use App\Models\TarifNinja;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CartGuestController extends Controller
@@ -340,13 +342,15 @@ class CartGuestController extends Controller
                 $cartTotal = session()->get('coupon')['total_amount'];
                 return view('frontend.checkout.guest.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces'));
             } else {
+                $provinsi = TarifNinja::provinsi()->distinct()->pluck('provinsi', 'l1_tier_code');
+          dd($provinsi);
                 $provinces = RajaProvince::pluck('name', 'raja_province_id');
                 $carts = Cart::content();
                 $cartQty = Cart::count();
                 $cartTotal = Cart::total();
 
 
-                return view('frontend.checkout.guest.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces'));
+                return view('frontend.checkout.guest.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces','provinsi'));
             }
         } else {
 
@@ -355,6 +359,13 @@ class CartGuestController extends Controller
             return redirect()->to('/guest/');
         }
     } // End Method
+
+    public function getKabupaten(Request $request)
+    {
+        $kabupaten = TarifNinja::kabupaten($request->l1_tier_code)->pluck('kabupaten', 'l2_tier_code');
+
+        return response()->json($kabupaten);
+    }
 
 
     public function CheckoutCoupon()

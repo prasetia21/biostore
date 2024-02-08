@@ -184,12 +184,21 @@
                 <div class="menu-title">Alamat Pengiriman</div>
             </a>
             <ul>
-                <li> <a href="{{ route('all.province') }}"><i class="bx bx-right-arrow-alt"></i>Provinsi</a>
+                <li> <a href="{{ route('ninja.alamat') }}"><i class="bx bx-right-arrow-alt"></i>Ninja</a>
                 </li>
-                <li> <a href="{{ route('all.regency') }}"><i class="bx bx-right-arrow-alt"></i>Kota</a>
+
+                <li> <a href="{{ route('ninja.province') }}"><i class="bx bx-right-arrow-alt"></i>Ninja Province</a>
+                </li>
+
+                <li> <a href="{{ route('ninja.regency') }}"><i class="bx bx-right-arrow-alt"></i>Ninja Kota / Kabupaten</a>
+                </li>
+
+                <li> <a href="{{ route('ninja.district') }}"><i class="bx bx-right-arrow-alt"></i>Ninja Kecamatan</a>
+                </li>
+                {{-- <li> <a href="{{ route('all.regency') }}"><i class="bx bx-right-arrow-alt"></i>Kota</a>
                 </li>
                 <li> <a href="{{ route('all.district') }}"><i class="bx bx-right-arrow-alt"></i>Distrik</a>
-                </li>
+                </li> --}}
             </ul>
         </li>
 

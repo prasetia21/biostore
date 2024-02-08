@@ -220,7 +220,22 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Shipping Province All Route 
     Route::controller(ShippingAreaController::class)->group(function () {
-        Route::get('/all/province', 'AllProvince')->name('all.province');
+        // Route::get('/all/province', 'AllProvince')->name('all.province');
+        Route::get('/ninja-import', 'NinjaTarif')->name('ninja.alamat');
+        Route::get('/import-csv', 'NinjaImport')->name('import.ninja');
+        Route::post('/store-import-csv', 'StoreNinjaImport')->name('store.ninja');
+
+        Route::get('/ninja-province', 'NinjaAllProvince')->name('ninja.province');
+        Route::get('/import-csv-province', 'NinjaImportProvince')->name('province.ninja');
+        Route::post('/store-province-csv', 'StoreNinjaProvince')->name('store.province');
+
+        Route::get('/ninja-regency', 'NinjaAllRegency')->name('ninja.regency');
+        Route::get('/import-csv-regency', 'NinjaImportRegency')->name('regency.ninja');
+        Route::post('/store-regency-csv', 'StoreNinjaRegency')->name('store.regency');
+
+        Route::get('/ninja-district', 'NinjaAllDistrict')->name('ninja.district');
+        Route::get('/import-csv-district', 'NinjaImportDistrict')->name('district.ninja');
+        Route::post('/store-district-csv', 'StoreNinjaDistrict')->name('store.district');
     });
 
     // Shipping District All Route 
@@ -501,6 +516,7 @@ Route::middleware(['guest'])->group(function () {
 
     // Checkout Page Route 
     Route::get('/guest/checkout', [CartGuestController::class, 'CheckoutCreate'])->name('checkout.guest');
+    Route::get('/ninja/lokasi', [CartGuestController::class, 'getKabupaten'])->name('wilayah.kabupaten');
 
     // Search All Route 
     Route::controller(IndexGuestController::class)->group(function () {

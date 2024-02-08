@@ -59,18 +59,6 @@
                                 <input required="" type="text" name="shipping_phone"
                                     >
                             </div>
-
-                            <select name="l1_tier_code" id="provinsi" onchange="getKabupaten(this.value)">
-                                <option value="">Pilih Provinsi</option>
-                                @foreach ($provinsi as $kode => $nama)
-                                    <option value="{{ $kode }}">{{ $nama }}</option>
-                                @endforeach
-                            </select>
-                        
-                            <select name="l2_tier_code" id="kabupaten">
-                                <option value="">Pilih Kabupaten</option>
-                            </select>
-
                             <div class="form-group col-lg-4">
                                 <label for="post_code" class="form-label">Kode Pos</label>
                                 <input required="" type="text" name="post_code" placeholder="Kode Pos *">
@@ -398,24 +386,7 @@
     </div>
 </div>
 
-<script>
-function getKabupaten(l1TierCode) {
-    $.ajax({
-        url: "{{ route('wilayah.kabupaten') }}",
-        method: "GET",
-        data: {
-            l1_tier_code: l1TierCode,
-        },
-        success: function(response) {
-            $('#kabupaten').html('');
-            $('#kabupaten').append('<option value="">Pilih Kabupaten</option>');
-            $.each(response, function(kode, nama) {
-                $('#kabupaten').append('<option value="' + kode + '">' + nama + '</option>');
-            });
-        },
-    });
-}
-</script>
+
 
 <script>
     $(document).ready(function() {
