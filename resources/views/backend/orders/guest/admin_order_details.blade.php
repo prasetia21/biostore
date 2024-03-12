@@ -31,38 +31,38 @@
                         <table class="table" style="background:#F4F6FA;font-weight: 600;">
                             <tr>
                                 <th>Nama Penerima:</th>
-                                <th>{{ $order->name }}</th>
+                                <th>{{ $order->shipping_name }}</th>
                             </tr>
 
                             <tr>
                                 <th>No. HP/WA:</th>
-                                <th>{{ $order->phone }}</th>
+                                <th>{{ $order->shipping_phone }}</th>
                             </tr>
 
                             <tr>
                                 <th>Email:</th>
-                                <th>{{ $order->email }}</th>
+                                <th>{{ $order->shipping_email }}</th>
                             </tr>
 
                             <tr>
                                 <th>Alamat Lengkap:</th>
-                                <th>{{ $order->address }}</th>
+                                <th>{{ $order->shipping_address1 }}</th>
                             </tr>
 
 
                             <tr>
                                 <th>Provinsi:</th>
-                                <th>{{ $order->province->name }}</th>
+                                <th>{{ $order->province_destination }}</th>
                             </tr>
 
                             <tr>
                                 <th>Kota / Kabupaten:</th>
-                                <th>{{ $order->city->name }}</th>
+                                <th>{{ $order->city_destination }}</th>
                             </tr>
 
                             <tr>
                                 <th>Kode Post :</th>
-                                <th>{{ $order->post_code }}</th>
+                                <th>{{ $order->post_code_destination }}</th>
                             </tr>
 
                             <tr>
@@ -82,7 +82,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Detail Order
-                            <span class="text-danger">Invoice : {{ $order->invoice_no }} </span>
+                            <span class="text-danger">Invoice : {{ $order->requested_tracking_number }} </span>
                         </h4>
                     </div>
                     <hr>
@@ -100,18 +100,18 @@
 
                             <tr>
                                 <th>Tipe Pembayaran:</th>
-                                <th>{{ $order->payment_method }}</th>
+                                <th>{{ $order->payment_type }}</th>
                             </tr>
 
 
                             <tr>
                                 <th>ID Transaksi:</th>
-                                <th>{{ $order->transaction_id }}</th>
+                                <th>{{ $order->merchant_order_number }}</th>
                             </tr>
 
                             <tr>
                                 <th>Invoice:</th>
-                                <th class="text-danger">{{ $order->invoice_no }}</th>
+                                <th class="text-danger">{{ $order->requested_tracking_number }}</th>
                             </tr>
 
                             <tr>

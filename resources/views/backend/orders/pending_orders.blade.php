@@ -42,9 +42,9 @@
                                 <tr>
                                     <td> {{ $key + 1 }} </td>
                                     <td>{{ $item->order_date }}</td>
-                                    <td>{{ $item->invoice_no }}</td>
+                                    <td>{{ $item->requested_tracking_number }}</td>
                                     <td>Rp.{{ $item->amount }}</td>
-                                    <td>{{ $item->payment_method }}</td>
+                                    <td>{{ $item->payment_type }}</td>
                                     <td> <span class="badge rounded-pill bg-success"> {{ $item->status }}</span></td>
 
                                     <td>

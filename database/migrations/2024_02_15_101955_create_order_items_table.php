@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->unsignedBigInteger('order_ninja_id');
+            $table->foreign('order_ninja_id')->references('id')->on('order_ninjas')->onDelete('cascade');
             $table->unsignedBigInteger('product_id');
             $table->string('color')->nullable();
             $table->string('size')->nullable();

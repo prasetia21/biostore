@@ -12,7 +12,7 @@ class OrderItem extends Model
     protected $guarded = [];
 
     public function order(){
-        return $this->belongsTo(Order::class,'order_id','id');
+        return $this->belongsTo(OrderNinja::class,'order_ninja_id','id');
     }
 
      public function product(){

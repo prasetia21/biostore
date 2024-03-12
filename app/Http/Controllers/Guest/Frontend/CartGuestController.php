@@ -9,6 +9,7 @@ use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Coupon;
+use App\Models\NinjaProvince;
 use App\Models\TarifNinja;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
@@ -26,7 +27,7 @@ class CartGuestController extends Controller
         $product = Product::findOrFail($id);
 
         $dimensi = ceil(($product->product_dimension_x * $product->product_dimension_y * $product->product_dimension_z) / 6000);
-        $beratProduk = $product->product_weight + $dimensi;
+        $beratProduk = $product->product_weight;
 
         if ($product->discount_price == NULL) {
 
@@ -83,7 +84,7 @@ class CartGuestController extends Controller
 
         $product = Product::findOrFail($id);
         $dimensi = ceil(($product->product_dimension_x * $product->product_dimension_y * $product->product_dimension_z) / 6000);
-        $beratProduk = $product->product_weight + $dimensi;
+        $beratProduk = $product->product_weight;
 
         if ($product->discount_price == NULL) {
 
@@ -332,6 +333,7 @@ class CartGuestController extends Controller
 
     public function CheckoutCreate()
     {
+       
         if (Cart::total() > 0) {
 
             if (Session::has('coupon')) {
@@ -342,15 +344,16 @@ class CartGuestController extends Controller
                 $cartTotal = session()->get('coupon')['total_amount'];
                 return view('frontend.checkout.guest.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces'));
             } else {
-                $provinsi = TarifNinja::provinsi()->distinct()->pluck('provinsi', 'l1_tier_code');
-          dd($provinsi);
-                $provinces = RajaProvince::pluck('name', 'raja_province_id');
+                $provinces = NinjaProvince::pluck('name', 'id');
+                // $provinces = RajaProvince::pluck('name', 'raja_province_id');
                 $carts = Cart::content();
                 $cartQty = Cart::count();
                 $cartTotal = Cart::total();
 
+               
 
-                return view('frontend.checkout.guest.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces','provinsi'));
+
+                return view('frontend.checkout.guest.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces'));
             }
         } else {
 

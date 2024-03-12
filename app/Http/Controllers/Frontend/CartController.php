@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\RajaCity;
 use App\Models\RajaProvince;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
+use Exception;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use App\Models\Product;
 use App\Models\Coupon;
+use App\Models\NinjaRegency;
 use App\Models\ShippingAddress;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
@@ -246,7 +250,7 @@ class CartController extends Controller
     {
 
         $coupon = Coupon::where('coupon_name', 'RLIKE', $request->coupon_name)->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))->first();
-    
+
         if ($coupon) {
             Session::put('coupon', [
                 'coupon_name' => $coupon->coupon_name,
@@ -315,6 +319,9 @@ class CartController extends Controller
         return response()->json($cost);
     }
 
+
+
+
     public function getCities($id)
     {
         $city = RajaCity::where('raja_province_id', $id)->pluck('name', 'city_id');
@@ -358,7 +365,7 @@ class CartController extends Controller
             } else {
 
                 toastr()->error('Keranjang Belanja Anda masih Kosong!!!');
-         
+
                 return redirect()->to('/');
             }
         } else {

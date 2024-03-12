@@ -73,7 +73,7 @@
                 <img src="" alt="Biovarnish Store" width="200" />
             </td>
             <td class="w-half">
-                <h2><span style="color: #ffc107;">Invoice:</span> #{{ $order->invoice_no }}</h2>
+                <h2><span style="color: #ffc107;">Invoice:</span> #{{ $order->requested_tracking_number }}</h2>
             </td>
         </tr>
     </table>
@@ -85,24 +85,24 @@
                     <div>
                         <h4>Detail Pemesan:</h4>
                     </div>
-                    <div>{{ $order->name }} </div>
-                    <div>{{ $order->email }}</div>
-                    <div>{{ $order->phone }}</div>
+                    <div>{{ $order->shipping_name }} </div>
+                    <div>{{ $order->shipping_email }}</div>
+                    <div>{{ $order->shipping_phone }}</div>
                     @php
-                        $div = $addressProvince->name;
-                        $dis = $addressCity->name;
+                        $div = $order->province->name;
+                        $dis = $order->city->name;
+                        $dip = $order->district->name;
                     @endphp
-                    <div>{{ $order->address }} / {{ $div }} / {{ $dis }}</div>
-                    <div>{{ $order->post_code }}</div>
+                    <div>{{ $order->shipping_address1 }} / {{ $div }} / {{ $dis }} / {{ $dip }}</div>
+                    <div>{{ $order->shipping_post_code }}</div>
                 </td>
                 <td class="w-half">
                     <div>
                         <h4>Shipping:</h4>
                     </div>
-                    <div>{{$orderShip[0]->shipping_service}} / {{ $order->payment_method }}</div>
-                    <div>Ongkir: @price($orderShip[0]->shipping_price)</div>
-                    <div>Berat: {{$orderShip[0]->weight}} gram</div>
-                    <div>Est: {{ $orderShip[0]->shipping_estimation }} Hari</div>
+                    <div>{{ $order->payment_type }}</div>
+                    <div>Ongkir: @price($order->shipping_price)</div>
+                    <div>Berat: {{$order->weight}} kilogram</div>
                     <div><br /></div>
                 </td>
                 <td class="w-half">

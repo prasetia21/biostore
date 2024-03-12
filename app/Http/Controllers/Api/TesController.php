@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class TesController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
         
         $data = getLokasiId($id);
-        // $data = $request->header('Authorization',"Bearer ".$request->bearerToken());
-        
+        $data = $request->header('Authorization',"Bearer ".$request->bearerToken());
+        //dd($data);
 
         // berikan respon jika data berhasil dipanggil
         return response()->json([

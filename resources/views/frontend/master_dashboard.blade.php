@@ -169,17 +169,7 @@
                 }
             });
         }
-        $(function() {
-            $('#provinsi').on('change', function() {
-                onChangeSelect('{{ route('get-regencies') }}', $(this).val(), 'kota');
-            });
-            $('#kota').on('change', function() {
-                onChangeSelect('{{ route('get-districts') }}', $(this).val(), 'kecamatan');
-            })
-            $('#kecamatan').on('change', function() {
-                onChangeSelect('{{ route('get-villages') }}', $(this).val(), 'desa');
-            })
-        });
+        
     </script>
 
 

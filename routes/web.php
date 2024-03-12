@@ -66,15 +66,23 @@ use App\Http\Controllers\Guest\User\AllGuestController;
 Route::get('/auth/{provider}', [OauthLoginController::class, 'redirectToProvider']);
 Route::get('/auth/{provider}/callback', [OauthLoginController::class, 'handleProvideCallback']);
 
-Route::get('/indoregion', [IndoregionController::class, 'index'])->name('indoregion.index');
+// Route::get('/indoregion', [IndoregionController::class, 'index'])->name('indoregion.index');
 
-Route::get('provinces', [IndoregionController::class, 'provinces'])->name('get-provinces');
-Route::get('regencies', [IndoregionController::class, 'regencies'])->name('get-regencies');
-Route::get('districts', [IndoregionController::class, 'districts'])->name('get-districts');
-Route::get('villages', [IndoregionController::class, 'villages'])->name('get-villages');
+// Route::get('provinces', [IndoregionController::class, 'provinces'])->name('get-provinces');
+// Route::get('regencies', [IndoregionController::class, 'regencies'])->name('get-regencies');
+// Route::get('districts', [IndoregionController::class, 'districts'])->name('get-districts');
+// Route::get('villages', [IndoregionController::class, 'villages'])->name('get-villages');
 
 Route::post('ongkir', [CartController::class, 'check_ongkir'])->name('check_ongkir');
-Route::get('cities/{raja_province_id}', [CartController::class, 'getCities'])->name('getCities');
+
+
+Route::post('ninja-ongkir', [CartController::class, 'ninja_ongkir'])->name('ninja_ongkir');
+// Route::get('cities/{raja_province_id}', [CartController::class, 'getCities'])->name('getCities');
+
+Route::get('ninjacity/{id}', [IndoregionController::class, 'getNinjaCities'])->name('getNinjaCities');
+Route::get('ninjadistricts/{id}', [IndoregionController::class, 'getNinjaDistricts'])->name('getNinjaDistricts');
+Route::get('ninjacode/{id}', [IndoregionController::class, 'getNinjaKodeDistricts'])->name('getNinjaKodeDistricts');
+
 
 Route::get('/', [IndexController::class, 'Index'])->name('home');
 
@@ -503,6 +511,7 @@ Route::middleware(['guest'])->group(function () {
         Route::get('/guest/district-get/ajax/{province_id}', 'DistrictGetAjax');
         Route::get('/guest/regency-get/ajax/{district_id}', 'RegencyGetAjax');
         Route::post('/guest/checkout/store', 'CheckoutStore')->name('checkout.store.guest');
+        
     });
     
     // User Dashboard All Route 

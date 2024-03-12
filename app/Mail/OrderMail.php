@@ -26,6 +26,6 @@ class OrderMail extends Mailable
     public function build()
     {
         $order = $this->data;
-        return $this->from('theo.deny@gmail.com')->view('mail.order_mail',compact('order'))->subject('Email From Biovarnish Store');
+        return $this->from('projek.dev@gmail.com')->view('mail.order_mail',compact('order'))->subject('Email From Biovarnish Store');
     }
 }
