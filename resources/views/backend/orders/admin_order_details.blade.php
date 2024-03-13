@@ -115,6 +115,11 @@
                             </tr>
 
                             <tr>
+                                <th>Tracking Number:</th>
+                                <th class="text-primary">{{ $order->tracking_number }}</th>
+                            </tr>
+
+                            <tr>
                                 <th>Total Harga:</th>
                                 <th>Rp.{{ $order->amount }}</th>
                             </tr>
@@ -124,7 +129,7 @@
                                 <th><span class="badge bg-danger" style="font-size: 15px;">{{ $order->status }}</span></th>
                             </tr>
 
-
+                            @dd($order->requested_tracking_number)
                             <tr>
                                 <th> </th>
                                 <th>
@@ -132,8 +137,8 @@
                                         <a href="{{ route('pending-confirm', $order->id) }}"
                                             class="btn btn-block btn-success" id="confirm">Confirm Order</a>
                                     @elseif($order->status == 'confirm')
-                                        <a href="{{ route('confirm-processing', $order->id) }}"
-                                            class="btn btn-block btn-success" id="processing">Processing Order</a>
+                                        <a href="{{ route('cetak-awb', $order->tracking_number) }}"
+                                            class="btn btn-block btn-success" id="processing">Cetak AWB</a>
                                     @elseif($order->status == 'paid')
                                         <a href="{{ route('processing-delivered', $order->id) }}"
                                             class="btn btn-block btn-success" id="delivered">Delivered Order</a>

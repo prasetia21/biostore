@@ -63,6 +63,7 @@ return new class extends Migration
             $table->string('deliver_start_time')->nullable();
             $table->string('deliver_end_time')->nullable();
             $table->text('delivery_instructions')->nullable();
+            $table->string('tracking_number')->nullable();
             $table->string('cancel_date')->nullable();
             $table->string('return_order')->nullable();
             $table->string('return_date')->nullable();

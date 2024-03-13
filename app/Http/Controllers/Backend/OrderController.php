@@ -15,6 +15,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Auth;
+use Exception;
+use GuzzleHttp\Client;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
 use Illuminate\Support\Facades\DB as FacadesDB;
@@ -78,14 +80,7 @@ class OrderController extends Controller
         return redirect()->route('admin.confirmed.order');
     } // End Method 
 
-    public function ConfirmToProcess($order_id)
-    {
-        OrderNinja::findOrFail($order_id)->update(['status' => 'paid']);
-
-        toastr()->success('Pesanan Berhasil Diproses');
-
-        return redirect()->route('admin.processing.order');
-    } // End Method 
+    
 
 
     public function ProcessToDelivered($order_id)

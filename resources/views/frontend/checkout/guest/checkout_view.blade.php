@@ -31,7 +31,7 @@
 
             <div class="row">
                 <h4 class="mb-30">Detail Pembayaran</h4>
-                <form action="{{ route('cash.ninja.order') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('guest.ninja.order') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="bg-billing">
@@ -74,7 +74,7 @@
                                     <option value="Yogyakarta">Yogyakarta</option>
                                 </select>
                             </div>
-                            <div class="w-100">
+                            <div class="w-100" hidden>
                                 <div class="form-group col-lg-12">
                                     <label for="provinsi" class="form-label">Pilih Provinsi</label><br />
                                     <select class="form-control provinsi-tujuan" name="province_destination"
@@ -92,48 +92,11 @@
                                         <option>Pilih Kota / Kabupaten...</option>
                                     </select>
                                 </div>
-
-                                <div class="form-group col-lg-12 mt-40">
-                                    <label for="kecamatan" class="form-label">Pilih Kecamatan</label><br />
-                                    <select class="form-control kecamatan-tujuan" name="kecamatan_destination"
-                                        id="kecamatan" required>
-                                        <option>Pilih Kecamatan...</option>
-                                    </select>
-                                </div>
-
-                                <input required="" type="text" name="to_kecamatan_kirim" id="to_kecamatan_kirim"
-                                    readonly hidden>
-                                <input required="" type="text" name="to_kota_kirim" id="to_kota_kirim" readonly
-                                    hidden>
-                                <input required="" type="text" name="to_provinsi_kirim" id="to_provinsi_kirim"
-                                    readonly hidden>
-
-
-                                <input required="" type="text" name="to_l1_tier_code" id="toL1TierCode"
-                                    readonly hidden>
-                                <input required="" type="text" name="to_l2_tier_code" id="toL2TierCode"
-                                    readonly hidden>
-
                             </div>
-                            {{-- <div class="form-group col-lg-6 invisible">
-                            <label for="kota" class="form-label">Pilih Kecamatan</label>
-
-                            <select class="form-control" name="kecamatan" id="kecamatan" required>
-                                <option>Pilih Kecamatan...</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-lg-6 invisible">
-                            <label for="kota" class="form-label">Pilih Kelurahan / Desa</label>
-
-                            <select class="form-control" name="desa" id="desa" required>
-                                <option>Pilih Desa / Kelurahan...</option>
-                            </select>
-                        </div> --}}
                         </div>
                         <br /><br />
 
-                        <div class="row shipping_calculator">
+                        <div class="row shipping_calculator note">
 
                             <div class="form-group mb-20">
                                 <textarea rows="5" placeholder="Catatan" name="notes"></textarea>
@@ -536,8 +499,6 @@
                     '<option value="">-- pilih kota tujuan --</option>');
             }
         });
-
-
         $('select[name="city_destination"]').on('change', function() {
             let provindeId = $(this).val();
             if (provindeId) {
@@ -561,7 +522,6 @@
                     '<option value="">-- pilih kecamatan tujuan --</option>');
             }
         });
-
         $('select[name="kecamatan_destination"]').on('change', function() {
             $('input[name="to_kecamatan_kirim"]').val($('#kecamatan :selected').text());
             $('input[name="to_kota_kirim"]').val($('#kota :selected').text());
@@ -592,7 +552,6 @@
                 $('input[name="to_l2_tier_code"]').empty();
             }
         });
-
         function ninjaOngkir() {
             //ajax check ongkir
             let isProcessing = false;
@@ -669,7 +628,6 @@
             });
 
         }
-
     });
 </script>
 <script>

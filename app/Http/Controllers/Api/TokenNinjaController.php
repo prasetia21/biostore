@@ -477,6 +477,60 @@ class TokenNinjaController extends Controller
         return $formattedNumber;
     }
 
+    public function AWBProcess(Request $request, $tracking_number)
+    {
+
+        $apiUrl = env('SANDBOX_NINJA_AWB_ENDPOINT');
+        $token = $request->token;
+
+        $url = $apiUrl . '?tids=' . $tracking_number . '&h=0'; 
+
+        try {
+            $client = new Client([
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token->access_token,
+                ],
+            ]);
+
+            $response = $client->get($url);
+
+            if ($response->getStatusCode() === 200) {
+                $fileName = 'awb-' . $tracking_number . '.pdf'; // Define desired filename
+
+                // Option 1: Store the PDF in temporary storage
+                $temporaryFile = tempnam(sys_get_temp_dir(), 'pdf_');
+                file_put_contents($temporaryFile, $response->getBody());
+
+                // Option 2: Store the PDF in permanent storage (e.g., disk)
+                // Storage::disk('local')->put($fileName, $response->getBody());
+
+                return response()->download($temporaryFile, $fileName, [
+                    'Content-Type' => 'application/pdf',
+                ])->deleteFileAfterSend(true); // Delete temporary file after download
+
+                // Alternatively, for permanent storage:
+                // return Storage::disk('local')->download($fileName);
+            } else {
+                // Handle API errors gracefully (log, return appropriate error codes)
+                $errorData = json_decode($response->getBody(), true);
+                return response()->json(['message' => 'Error downloading PDF'], $response->getStatusCode());
+            }
+        } catch (Exception $e) {
+            // Handle cURL or other exceptions appropriately (log, return error response)
+            return response()->json([
+                'message' => 'An error occurred while fetching the report.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        // dd($requested_tracking_number);
+        // OrderNinja::findOrFail($requested_tracking_number)->update(['status' => 'paid']);
+
+        // toastr()->success('Pesanan Berhasil Diproses');
+
+        // return redirect()->route('admin.processing.order');
+    } // End Method 
+
     // public function ninja_order(Request $request)
     // {
     //     try {

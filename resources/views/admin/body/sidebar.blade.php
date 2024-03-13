@@ -231,15 +231,15 @@
                 <div class="menu-title">Order</div>
             </a>
             <ul>
-                <li> <a href="{{ route('pending.order') }}"><i class="bx bx-right-arrow-alt"></i>Pending</a>
+                {{-- <li> <a href="{{ route('pending.order') }}"><i class="bx bx-right-arrow-alt"></i>Pending</a> --}}
                 </li>
                 <li> <a href="{{ route('admin.confirmed.order') }}"><i
-                            class="bx bx-right-arrow-alt"></i>Konfirmasi</a>
+                            class="bx bx-right-arrow-alt"></i>Pesanan</a>
                 </li>
-                <li> <a href="{{ route('admin.processing.order') }}"><i class="bx bx-right-arrow-alt"></i>Proses</a>
+                {{-- <li> <a href="{{ route('admin.processing.order') }}"><i class="bx bx-right-arrow-alt"></i>Proses</a>
                 </li>
                 <li> <a href="{{ route('admin.delivered.order') }}"><i class="bx bx-right-arrow-alt"></i>Terkirim</a>
-                </li>
+                </li> --}}
 
 
 

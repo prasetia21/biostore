@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Guest\User\CheckoutGuestController;
 use App\Http\Controllers\User\MidtransController;
 use App\Http\Controllers\Guest\User\MidtransGuestController;
+use App\Http\Controllers\User\CheckoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -27,22 +28,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('webhook', [MidtransController::class, 'midtransHandler']);
 
-Route::get('tes/{id}', [TesController::class, 'index']);
-Route::post('pos', [TesController::class, 'posting']);
-
 Route::post('generate-token', [TokenNinjaController::class, 'generateAccessToken']);
 
 Route::post('ninja-tarif', [TokenNinjaController::class, 'ninja_tarif'])->name('ninja_tarif');
-Route::post('ninja-create-order', [TokenNinjaController::class, 'ninja_create_order'])->name('ninja_create_order');
 
 Route::group(['middleware' => 'ninja-token'], function(){
-    Route::get('tes/{id}', [TesController::class, 'index']);
-    Route::post('/cod/ninja', [CheckoutGuestController::class, 'createCheckout'])->name('cash.ninja.order');
-    
-    
+    Route::post('/guest/cod/ninja', [CheckoutGuestController::class, 'createCheckout'])->name('guest.ninja.order');
+    Route::post('/user/cod/ninja', [CheckoutController::class, 'createCheckout'])->name('user.ninja.order'); 
+    Route::get('/confirm/processing/{tracking_number}', [TokenNinjaController::class, 'AWBProcess'])->name('cetak-awb'); 
 }); 
-
-
-
-
-Route::post('/order/ninja', [TokenNinjaController::class, 'ninja_order_tes'])->name('api.ninja');
