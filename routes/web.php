@@ -84,6 +84,7 @@ Route::get('ninjadistricts/{id}', [IndoregionController::class, 'getNinjaDistric
 Route::get('ninjacode/{id}', [IndoregionController::class, 'getNinjaKodeDistricts'])->name('getNinjaKodeDistricts');
 
 
+
 Route::get('/', [IndexController::class, 'Index'])->name('home');
 
 
@@ -511,6 +512,7 @@ Route::middleware(['guest'])->group(function () {
         Route::get('/guest/district-get/ajax/{province_id}', 'DistrictGetAjax');
         Route::get('/guest/regency-get/ajax/{district_id}', 'RegencyGetAjax');
         Route::post('/guest/checkout/store', 'CheckoutStore')->name('checkout.store.guest');
+        Route::get('/guest/order/inv', 'GuestData')->name('guest.order.detail');
         
     });
     

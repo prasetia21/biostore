@@ -1,6 +1,6 @@
-@php
+{{-- @php
     $route = Route::current()->getName();
-@endphp
+@endphp --}}
 
 <footer class="main">
 
@@ -8,8 +8,8 @@
     <div class="bottom-panel nagivation-menu-wrap">
         <ul class="sc-bottom-bar furniture-bottom-nav" id="furniture_navbar">
 
-            <li class="nav-menu-icon {{ $route == 'home' ? 'active' : '' }}">
-                <a href="{{ url('/') }}" class="home-icon navigation-icons {{ $route == 'home' ? 'active' : '' }}">
+            <li class="nav-menu-icon">
+                <a href="{{ url('/') }}" class="home-icon navigation-icons">
                     <svg width="25px" height="25px" viewBox="0 0 28 28" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path clip-rule="evenodd"
@@ -19,9 +19,9 @@
                 </a>
             </li>
 
-            <li class="nav-menu-icon" {{ $route == 'wishlist' ? 'active' : '' }}>
+            <li class="nav-menu-icon">
                 <a href="{{ route('wishlist') }}"
-                    class="event-icon navigation-icons {{ $route == 'wishlist' ? 'active' : '' }}">
+                    class="event-icon navigation-icons">
                     <svg width="30px" height="30px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
                         stroke-width="3" stroke="#000000" fill="none">
                         <path
@@ -30,9 +30,9 @@
                 </a>
             </li>
 
-            <li class="nav-menu-icon {{ $route == 'shop.page' ? 'active' : '' }}">
+            <li class="nav-menu-icon">
                 <a href="{{ route('shop.page') }}"
-                    class="account-icon navigation-icons {{ $route == 'shop.page' ? 'active' : '' }}">
+                    class="account-icon navigation-icons">
                     <svg width="40px" height="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
                         <circle style="fill:#273B7A;" cx="256" cy="256" r="256" />
@@ -63,9 +63,9 @@
                 </a>
             </li>
 
-            <li class="nav-menu-icon {{ $route == 'mycart' ? 'active' : '' }}">
+            <li class="nav-menu-icon">
                 <a href="{{ route('mycart') }}"
-                    class="notification-icon navigation-icons left-icon {{ $route == 'mycart' ? 'active' : '' }}">
+                    class="notification-icon navigation-icons left-icon">
                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -83,9 +83,9 @@
                 </a>
             </li>
 
-            <li class="nav-menu-icon {{ $route == 'dashboard' ? 'active' : '' }}">
+            <li class="nav-menu-icon">
                 <a href="{{ route('dashboard') }}"
-                    class="account-icon navigation-icons {{ $route == 'dashboard' ? 'active' : '' }}">
+                    class="account-icon navigation-icons">
                     <svg width="25px" height="25px" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1"
                         xmlns="http://www.w3.org/2000/svg">
                         <defs>

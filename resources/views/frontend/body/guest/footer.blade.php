@@ -1,6 +1,6 @@
-@php
+{{-- @php
     $route = Route::current()->getName();
-@endphp
+@endphp --}}
 
 <footer class="main">
 
@@ -8,8 +8,8 @@
                         <div class="bottom-panel nagivation-menu-wrap">
                             <ul class="sc-bottom-bar furniture-bottom-nav" id="furniture_navbar">
 
-                                <li class="nav-menu-icon {{ $route == 'home.guest' ? 'active' : '' }}">
-                                    <a href="{{ url('/guest/') }}" class="home-icon navigation-icons {{ $route == 'home.guest' ? 'active' : '' }}">
+                                <li class="nav-menu-icon">
+                                    <a href="{{ url('/guest/') }}" class="home-icon navigation-icons">
                                         <svg width="25px" height="25px" viewBox="0 0 28 28" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path clip-rule="evenodd"
@@ -19,8 +19,8 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-menu-icon {{ $route == 'shop.page.guest' ? 'active' : '' }}">
-                                    <a href="{{ route('shop.page.guest') }}" class="account-icon navigation-icons {{ $route == 'shop.page.guest' ? 'active' : '' }}">
+                                <li class="nav-menu-icon">
+                                    <a href="{{ route('shop.page.guest') }}" class="account-icon navigation-icons">
                                         <svg width="40px" height="40px" version="1.1" id="Layer_1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     viewBox="0 0 512 512" xml:space="preserve">
@@ -53,9 +53,9 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-menu-icon {{ $route == 'mycart.guest' ? 'active' : '' }}">
+                                <li class="nav-menu-icon">
                                     <a href="{{ route('mycart.guest') }}"
-                                        class="notification-icon navigation-icons left-icon {{ $route == 'mycart.guest' ? 'active' : '' }}">
+                                        class="notification-icon navigation-icons left-icon">
                                         <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -73,8 +73,8 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-menu-icon {{ $route == 'user.track.order.guest' ? 'active' : '' }}">
-                                    <a href="{{ route('user.track.order.guest') }}" class="account-icon navigation-icons {{ $route == 'user.track.order.guest' ? 'active' : '' }}">
+                                <li class="nav-menu-icon">
+                                    <a href="{{ route('user.track.order.guest') }}" class="account-icon navigation-icons">
                                         <svg fill="#000000" height="30px" width="30px" version="1.1" id="Layer_1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 512 512" xml:space="preserve">

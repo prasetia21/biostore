@@ -74,7 +74,7 @@
                                     <option value="Yogyakarta">Yogyakarta</option>
                                 </select>
                             </div>
-                            <div class="w-100" hidden>
+                            <div class="w-100">
                                 <div class="form-group col-lg-12">
                                     <label for="provinsi" class="form-label">Pilih Provinsi</label><br />
                                     <select class="form-control provinsi-tujuan" name="province_destination"
@@ -85,21 +85,43 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-lg-12 mt-40">
+                                <div class="form-group col-lg-12 mt-5">
                                     <label for="kota" class="form-label">Pilih Kota / Kabupaten</label><br />
                                     <select class="form-control kota-tujuan" name="city_destination" id="kota"
                                         required>
                                         <option>Pilih Kota / Kabupaten...</option>
                                     </select>
                                 </div>
+
+                                <div class="form-group col-lg-12 mt-5">
+                                    <label for="kecamatan" class="form-label">Pilih Kecamatan</label><br />
+                                    <select class="form-control kecamatan-tujuan" name="kecamatan_destination"
+                                        id="kecamatan" required>
+                                        <option>Pilih Kecamatan...</option>
+                                    </select>
+                                </div>
+
+                                <input required="" type="text" name="to_kecamatan_kirim" id="to_kecamatan_kirim"
+                                    readonly hidden>
+                                <input required="" type="text" name="to_kota_kirim" id="to_kota_kirim" readonly
+                                    hidden>
+                                <input required="" type="text" name="to_provinsi_kirim" id="to_provinsi_kirim"
+                                    readonly hidden>
+
+
+                                <input required="" type="text" name="to_l1_tier_code" id="toL1TierCode"
+                                    readonly hidden>
+                                <input required="" type="text" name="to_l2_tier_code" id="toL2TierCode"
+                                    readonly hidden>
+
                             </div>
                         </div>
-                        <br /><br />
+                        <br />
 
-                        <div class="row shipping_calculator note">
+                        <div class="row shipping_calculator note mt-5">
 
                             <div class="form-group mb-20">
-                                <textarea rows="5" placeholder="Catatan" name="notes"></textarea>
+                                <textarea rows="3" placeholder="Catatan" name="notes"></textarea>
                             </div>
 
                         </div>
@@ -429,7 +451,8 @@
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button id="btnSubmited" type="submit" class="btn btn-fill-out btn-block mt-30">Order<i
+                                    <button id="btnSubmited" type="submit"
+                                        class="btn btn-fill-out btn-block mt-30">Order<i
                                             class="fi-rs-sign-out ml-15"></i></button>
                                     <div id="msg"></div>
                                 </div>
@@ -552,6 +575,7 @@
                 $('input[name="to_l2_tier_code"]').empty();
             }
         });
+
         function ninjaOngkir() {
             //ajax check ongkir
             let isProcessing = false;
@@ -587,7 +611,8 @@
                 },
                 dataType: "JSON",
                 type: "POST",
-                success: function(response) {
+                success: function(response, textStatus, jqXHR) {
+                    console.log(textStatus + ": " + jqXHR.status);
                     $('#loading-ongkir').html('');
                     isProcessing = false;
                     if (response) {
@@ -624,6 +649,9 @@
                         document.getElementById("grand_total").value = parseInt(strGrandTotal2);
 
                     }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
                 }
             });
 
@@ -799,13 +827,13 @@
     });
 
     function resend(data) {
-       
+
         $.ajax({
             url: '/cod/ninja',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
-            
+
             success: function(result) {
 
                 $('#frmNinjaOrder')[0].reset();

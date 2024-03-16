@@ -408,20 +408,30 @@ class CheckoutController extends Controller
                         'tracking_number' => $tid,
                     ]);
                     
+                    if (Session::has('coupon')) {
+                        Session::forget('coupon');
+                    }
+            
+                    Cart::destroy();
+
+                    toastr()->success('Pesanan Berhasil Dibuat!!!');
+
                     return response()->json([
+                        'success' => true,
                         'message' => 'Request successful!',
                         'data' => $responseBody,
-                    ]);
+                    ], 200)->header('Location', route('dashboard'));
                 } else {
                     // Retry logic
                     if ($retryCount < $maxRetries) {
                         continue;
                     } else {
                         // Error
+                        toastr()->success('Pesanan Anda Gagal Diproses!!!');
                         return response()->json([
                             'success' => false,
                             'message' => 'Failed to create order and send to third-party API. Error: ' . $response->getStatusCode(),
-                        ], 500);
+                        ], 500)->header('Location', route('dashboard'));
                     }
                 }
             } while ($retryCount < $maxRetries);

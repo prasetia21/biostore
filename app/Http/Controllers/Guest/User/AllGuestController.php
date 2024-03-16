@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderNinja;
 use App\Models\OrderShipping;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -21,7 +22,7 @@ class AllGuestController extends Controller
 
         $invoice = $request->code;
 
-        $track = Order::where('invoice_no', $invoice)->first();
+        $track = OrderNinja::where('requested_tracking_number', $invoice)->first();
 
         if ($track) {
             return view('frontend.traking.guest.track_order', compact('track'));
@@ -40,11 +41,10 @@ class AllGuestController extends Controller
     public function GuestOrderInvoice($order_id)
     {
 
-        $order = Order::with('province', 'city', 'user')->where('id', $order_id)->first();
-        $orderItem = OrderItem::with('product')->where('order_id', $order_id)->orderBy('id', 'DESC')->get();
-        $orderShip = OrderShipping::where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+        $order = OrderNinja::with('province', 'city', 'user')->where('id', $order_id)->first();
+        $orderItem = OrderItem::with('product')->where('order_ninja_id', $order_id)->orderBy('order_ninja_id', 'DESC')->get();
 
-        $pdf = Pdf::loadView('frontend.order.guest.order_invoice', compact('order', 'orderItem', 'orderShip'))->setPaper('a4')->setOption([
+        $pdf = Pdf::loadView('frontend.order.guest.order_invoice', compact('order', 'orderItem'))->setPaper('a4')->setOption([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);

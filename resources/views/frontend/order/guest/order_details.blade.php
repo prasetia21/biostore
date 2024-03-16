@@ -1,10 +1,10 @@
 
 @php
 
-    $order = App\Models\Order::where('guest_id', $guestData->id)->get();
+    $order = App\Models\OrderNinja::where('guest_id', $guestData->id)->get();
+
+    $orderItem = App\Models\OrderItem::with('product')->where('order_ninja_id', $order[0]->id)->orderBy('order_ninja_id', 'DESC')->get();
     
-    $orderItem = App\Models\OrderItem::with('product')->where('order_id', $order[0]->id)->orderBy('id', 'DESC')->get();
-    $orderShip = App\Models\OrderShipping::where('order_id', $order[0]->id)->orderBy('id', 'DESC')->get();
 @endphp
 
 {{-- @dd($order); --}}
@@ -40,22 +40,22 @@
                                                 <table class="table" style="background:#F4F6FA;font-weight: 600;">
                                                     <tr>
                                                         <th>Nama Penerima:</th>
-                                                        <th>{{ $order[0]->name }}</th>
+                                                        <th>{{ $order[0]->shipping_name }}</th>
                                                     </tr>
 
                                                     <tr>
                                                         <th>No Telepon:</th>
-                                                        <th>{{ $order[0]->phone }}</th>
+                                                        <th>{{ $order[0]->shipping_phone }}</th>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Email:</th>
-                                                        <th>{{ $order[0]->email }}</th>
+                                                        <th>{{ $order[0]->shipping_email }}</th>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Alamat Pengiriman:</th>
-                                                        <th>{{ $order[0]->address }}, {{ $order[0]->province->name }}, {{ $order[0]->city->name }}, Kodepos: {{ $order[0]->post_code }}</th>
+                                                        <th>{{ $order[0]->shipping_address1 }}, {{ $order[0]->province_destination }}, {{ $order[0]->city_destination }}, Kodepos: {{ $order[0]->post_code_destination }}</th>
                                                     </tr>
 
                                                     <tr>
@@ -75,7 +75,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h4>Detail Pesanan
-                                                    <span class="text-danger">Invoice : {{ $order[0]->invoice_no }} </span>
+                                                    <span class="text-danger">Invoice : {{ $order[0]->requested_tracking_number }} </span>
                                                 </h4>
                                             </div>
                                             <hr>
@@ -89,33 +89,33 @@
                                                     <tr>
                                                         <th>Ekspedisi:</th>
 
-                                                        <th>{{ $orderShip[0]->shipping_service }}</th>
+                                                        <th>{{ $order[0]->shipping_service }}</th>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Berat Paket:</th>
-                                                        <th>{{ $orderShip[0]->weight }} gram</th>
+                                                        <th>{{ $order[0]->weight }} gram</th>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Ongkos Kirim:</th>
-                                                        <th>@price($orderShip[0]->shipping_price)</th>
+                                                        <th>@price($order[0]->shipping_price)</th>
                                                     </tr>
 
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <th>Estimasi Terkirim:</th>
-                                                        <th>{{ $orderShip[0]->shipping_estimation }} Hari</th>
-                                                    </tr>
+                                                        <th>{{ $order[0]->shipping_estimation }} Hari</th>
+                                                    </tr> --}}
 
 
                                                     <tr>
-                                                        <th>ID Transaksi:</th>
-                                                        <th>{{ $order[0]->transaction_id }}</th>
+                                                        <th>Ninja Tracking ID:</th>
+                                                        <th>{{ $order[0]->tracking_number }}</th>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Invoice:</th>
-                                                        <th class="text-danger">{{ $order[0]->invoice_no }}</th>
+                                                        <th class="text-danger">{{ $order[0]->requested_tracking_number }}</th>
                                                     </tr>
 
                                                     <tr>
@@ -125,9 +125,9 @@
 
                                                     <tr>
                                                         <th>Total Harga Pesanan:</th>
-                                                        <th>Rp.{{ $order[0]->amount }}</th>
+                                                        <th>@price($order[0]->amount)</th>
                                                     </tr>
-
+                                                    
                                                     <tr>
                                                         <th>Status Pemesanan:</th>
                                                         <th><span

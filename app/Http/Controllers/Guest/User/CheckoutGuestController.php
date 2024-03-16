@@ -73,6 +73,20 @@ class CheckoutGuestController extends Controller
         return $besok->format('Y-m-d');
     }
 
+    public function GuestData(Request $request)
+    {
+        $req = response()->json($request->all());
+
+        $responseData = json_decode($req->getContent(), true);
+        $data = $responseData["data"];
+
+
+        $data_order = OrderNinja::where('requested_tracking_number', $data['requested_tracking_number'])->first();
+        $guestData = Guest::find($data_order->guest_id);
+        
+
+        return view('frontend.order.guest.order_details', compact('guestData'));
+    }
 
     public function createCheckout(Request $request)
     {
@@ -119,7 +133,8 @@ class CheckoutGuestController extends Controller
         $merchant_order_number = 'BIOFAST-' . mt_rand(10000000, 99999999);
 
         $origin_name = "Bio Official";
-        $origin_email = "bioofficial@ninjasandbox.co";
+        $origin_email = "theo.deny@gmail.com";
+        // $origin_email = "bioofficial@ninjasandbox.co";
         $origin_phone = "082243380001";
         $shipping_origin1 = "JL. BABARAN BARAT GG. VIII UH III 817";
         $shipping_origin2 = "Jl. Celeban, BARU, Kec. Umbulharjo, Kota Yogyakarta, Daerah Istimewa Yogyakarta";
@@ -249,8 +264,9 @@ class CheckoutGuestController extends Controller
             'email' => $invoice->shipping_email,
         ];
 
-        // Mail::to($shipping_email)->send(new OrderMail($data));
-        // Mail::to($origin_email)->send(new OrderMail($data));
+        Mail::to($origin_email)->send(new OrderMail($data));
+        Mail::to($shipping_email)->send(new OrderMail($data));
+
 
         $carts = Cart::content();
 
@@ -367,7 +383,7 @@ class CheckoutGuestController extends Controller
                     $responseBody = json_decode($response->getBody(), true);
 
                     $data = $responseBody;
-            
+
                     // Extract the tracking number
                     $tid = $data['tracking_number'];
 
@@ -376,20 +392,33 @@ class CheckoutGuestController extends Controller
                         'tracking_number' => $tid,
                     ]);
 
-                    return response()->json([
-                        'message' => 'Request successful!',
-                        'data' => $responseBody,
+                    $rtn = $requested_tracking_number;
+
+                    if (Session::has('coupon')) {
+                        Session::forget('coupon');
+                    }
+
+                    Cart::destroy();
+
+                    toastr()->success('Pesanan Berhasil Dibuat!!!');
+
+                    return redirect()->route('guest.order.detail', [
+                        'success' => true,
+                        'message' => 'Data berhasil disimpan!',
+                        'data' => $rtn,
                     ]);
+
                 } else {
                     // Retry logic
                     if ($retryCount < $maxRetries) {
                         continue;
                     } else {
                         // Error
+                        toastr()->success('Pesanan Anda Gagal Diproses!!!');
                         return response()->json([
                             'success' => false,
                             'message' => 'Failed to create order and send to third-party API. Error: ' . $response->getStatusCode(),
-                        ], 500);
+                        ], 500)->header('Location', route('home.guest'));
                     }
                 }
             } while ($retryCount < $maxRetries);
@@ -400,17 +429,6 @@ class CheckoutGuestController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-
-
-        if (Session::has('coupon')) {
-            Session::forget('coupon');
-        }
-
-        Cart::destroy();
-
-        toastr()->success('Pesanan Berhasil Dibuat!!!');
-
-        return redirect()->route('home.guest');
     }
 
     function formatPhoneNumber($number)
@@ -425,7 +443,7 @@ class CheckoutGuestController extends Controller
     }
 
 
-      // public function CheckoutStore(Request $request)
+    // public function CheckoutStore(Request $request)
     // {
     //     $data = array();
 
