@@ -1,6 +1,6 @@
-{{-- @php
+@php
     $route = Route::current()->getName();
-@endphp --}}
+@endphp
 
 <footer class="main">
 

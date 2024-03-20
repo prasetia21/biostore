@@ -4,6 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\MyReward;
+use App\Models\NinjaDistrict;
+use App\Models\NinjaProvince;
+use App\Models\NinjaRegency;
 use App\Models\Point;
 use App\Models\ReferralRelationship;
 use App\Models\Reward;
@@ -13,6 +16,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderNinja;
 use App\Models\OrderShipping;
 use App\Models\RajaCity;
 use App\Models\RajaProvince;
@@ -42,7 +46,8 @@ class AllUserController extends Controller
     public function UserAddAddress()
     {
 
-        $provinces = RajaProvince::pluck('name', 'raja_province_id');
+        // $provinces = RajaProvince::pluck('name', 'raja_province_id');
+        $provinces = NinjaProvince::pluck('name', 'id');
 
         return view('frontend.userdashboard.user_add_address', compact('provinces'));
 
@@ -51,12 +56,15 @@ class AllUserController extends Controller
     public function UserEditAddress()
     {
         $address = ShippingAddress::where('user_id', Auth::id())->first();
-        $provinces = RajaProvince::pluck('name', 'raja_province_id');
+ 
+        // $provinces = RajaProvince::pluck('name', 'raja_province_id');
+        $provinces = NinjaProvince::pluck('name', 'id');
         $addressProvince = ShippingAddress::with('province')->where('user_id', Auth::id())->first();
-        $addressCity = RajaCity::where('city_id', $address->city_id)->first();
+        $addressCity = NinjaRegency::where('id', $address->ninja_regency_id)->first();
+        $addressDistrict = NinjaDistrict::where('id', $address->ninja_district_id)->first();
   
 
-        return view('frontend.userdashboard.user_edit_address', compact('provinces', 'address', 'addressProvince', 'addressCity'));
+        return view('frontend.userdashboard.user_edit_address', compact('provinces', 'address', 'addressProvince', 'addressCity', 'addressDistrict'));
 
     } // End Method 
 
@@ -70,7 +78,7 @@ class AllUserController extends Controller
     public function UserOrderPage()
     {
         $id = Auth::user()->id;
-        $orders = Order::where('user_id', $id)->orderBy('id', 'DESC')->get();
+        $orders = OrderNinja::where('user_id', $id)->orderBy('id', 'DESC')->get();
         return view('frontend.userdashboard.user_order_page', compact('orders'));
     } // End Method 
 
@@ -78,15 +86,18 @@ class AllUserController extends Controller
     public function UserOrderDetails($order_id)
     {
 
-        $order = Order::with('province', 'city', 'user')->where('id', $order_id)->where('user_id', Auth::id())->first();
+        $order = OrderNinja::with('province', 'city', 'user')->where('id', $order_id)->where('user_id', Auth::id())->first();
 
-        $addressProvince = RajaProvince::where('raja_province_id', $order->raja_province_id)->first();
-        $addressCity = RajaCity::where('city_id', $order->city_id)->first();
+        // $addressProvince = RajaProvince::where('raja_province_id', $order->raja_province_id)->first();
+        $addressProvince = NinjaProvince::where('id', $order->ninja_province_id)->first();
 
-        $orderItem = OrderItem::with('product')->where('order_id', $order_id)->orderBy('id', 'DESC')->get();
-        $orderShip = OrderShipping::where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+        // $addressCity = RajaCity::where('city_id', $order->city_id)->first();
+        $addressCity = NinjaRegency::where('id', $order->ninja_regency_id)->first();
 
-        return view('frontend.order.order_details', compact('order', 'orderItem', 'orderShip', 'addressProvince', 'addressCity'));
+        $orderItem = OrderItem::with('product')->where('order_ninja_id', $order_id)->orderBy('id', 'DESC')->get();
+        // $orderShip = OrderShipping::where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+
+        return view('frontend.order.order_details', compact('order', 'orderItem', 'addressProvince', 'addressCity'));
 
     } // End Method 
 
@@ -94,17 +105,18 @@ class AllUserController extends Controller
     public function UserOrderInvoice($order_id)
     {
 
-        $order = Order::with('province', 'city', 'user')->where('id', $order_id)->where('user_id', Auth::id())->first();
-        
-        $addressProvince = RajaProvince::where('raja_province_id', $order->raja_province_id)->first();
-        $addressCity = RajaCity::where('city_id', $order->city_id)->first();
+        $order = OrderNinja::with('province', 'city', 'user')->where('id', $order_id)->where('user_id', Auth::id())->first();
 
-        
+        // $addressProvince = RajaProvince::where('raja_province_id', $order->raja_province_id)->first();
+        $addressProvince = NinjaProvince::where('id', $order->ninja_province_id)->first();
 
-        $orderItem = OrderItem::with('product')->where('order_id', $order_id)->orderBy('id', 'DESC')->get();
-        $orderShip = OrderShipping::where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+        // $addressCity = RajaCity::where('city_id', $order->city_id)->first();
+        $addressCity = NinjaRegency::where('id', $order->ninja_regency_id)->first();
 
-        $pdf = Pdf::loadView('frontend.order.order_invoice', compact('order', 'orderItem', 'orderShip', 'addressProvince', 'addressCity'))->setPaper('a4')->setOption([
+        $orderItem = OrderItem::with('product')->where('order_ninja_id', $order_id)->orderBy('id', 'DESC')->get();
+        // $orderShip = OrderShipping::where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+
+        $pdf = Pdf::loadView('frontend.order.order_invoice', compact('order', 'orderItem', 'addressProvince', 'addressCity'))->setPaper('a4')->setOption([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);

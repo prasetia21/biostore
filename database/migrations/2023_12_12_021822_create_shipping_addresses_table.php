@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('raja_province_id');
-            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('ninja_province_id');
+            $table->unsignedBigInteger('ninja_regency_id');
+            $table->unsignedBigInteger('ninja_district_id');
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('post_code')->nullable();
             $table->string('note')->nullable();
-            $table->integer('status'); 
+            $table->boolean('status'); 
             $table->timestamps();
         });
     }

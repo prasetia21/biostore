@@ -7,7 +7,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title> @yield('title')</title>
+    <title>Halaman Pendaftaran</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="title" content="{{ $seo->meta_title }}" />
     <meta name="author" content="{{ $seo->meta_author }}" />

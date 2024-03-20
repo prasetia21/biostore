@@ -53,7 +53,7 @@
                             </div>
                         </div>
 
-                        <div class="row shipping_calculator invisible">
+                        <div class="row shipping_calculator" hidden>
                             <div class="form-group col-lg-12" hidden>
                                 <label for="shipping_address1" class="form-label">Alamat Lengkap</label>
                                 <input required="" type="text" name="shipping_address1"
@@ -66,6 +66,7 @@
                                 <input required="" type="text" name="post_code" placeholder="Kode Pos *"
                                     value="{{ !empty($address->post_code) ? $address->post_code : '' }}">
                             </div>
+                            
                             <div class="invisible">
                                 <input required="" type="text" name="from_l1_tier_code" id="fromL1TierCode"
                                     value="ID_A00034_01" readonly hidden>
@@ -84,7 +85,7 @@
                                     <label for="provinsi" class="form-label">Pilih Provinsi</label><br />
                                     <select class="form-control provinsi-tujuan" name="province_destination"
                                         id="provinsi" required>
-                                        <option value="0">-- pilih provinsi --</option>
+                                        <option value="{{ $address->ninja_province_id }}">-- pilih provinsi --</option>
                                         @foreach ($provinces as $province => $value)
                                             <option value="{{ $province ?? '' }}">{{ $value ?? '' }}</option>
                                         @endforeach
@@ -94,7 +95,7 @@
                                     <label for="kota" class="form-label">Pilih Kota / Kabupaten</label><br />
                                     <select class="form-control kota-tujuan" name="city_destination" id="kota"
                                         required>
-                                        <option>Pilih Kota / Kabupaten...</option>
+                                        <option value="{{ $address->ninja_regency_id }}">Pilih Kota / Kabupaten...</option>
                                     </select>
                                 </div>
 
@@ -102,21 +103,21 @@
                                     <label for="kecamatan" class="form-label">Pilih Kecamatan</label><br />
                                     <select class="form-control kecamatan-tujuan" name="kecamatan_destination"
                                         id="kecamatan" required>
-                                        <option>Pilih Kecamatan...</option>
+                                        <option value="{{ $address->ninja_district_id }}">Pilih Kecamatan...</option>
                                     </select>
                                 </div>
 
-                                <input required="" type="text" name="to_kecamatan_kirim" id="to_kecamatan_kirim"
+                                <input required="" type="text" name="to_kecamatan_kirim" id="to_kecamatan_kirim"  value="{{ $address->district->name }}"
                                     readonly hidden>
-                                <input required="" type="text" name="to_kota_kirim" id="to_kota_kirim"
+                                <input required="" type="text" name="to_kota_kirim" id="to_kota_kirim"  value="{{ $address->city->name }}"
                                     readonly hidden>
-                                <input required="" type="text" name="to_provinsi_kirim" id="to_provinsi_kirim"
+                                <input required="" type="text" name="to_provinsi_kirim" id="to_provinsi_kirim" value="{{ $address->province->name }}"
                                     readonly hidden>
 
 
-                                <input required="" type="text" name="to_l1_tier_code" id="toL1TierCode"
+                                <input required="" type="text" name="to_l1_tier_code" id="toL1TierCode" value="{{ $kode->l1_tier_code }}"
                                     readonly hidden>
-                                <input required="" type="text" name="to_l2_tier_code" id="toL2TierCode"
+                                <input required="" type="text" name="to_l2_tier_code" id="toL2TierCode" value="{{ $kode->l2_tier_code }}"
                                     readonly hidden>
 
                             </div>
@@ -643,6 +644,10 @@
             });
 
         }
+
+        $(window).on('load', function() {
+            ninjaOngkir();
+        })
     });
 </script>
 <script>

@@ -48,7 +48,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        toastr()->success('Logout Berhasil');
         Auth::guard('web')->logout();
+
+        
 
         $request->session()->invalidate();
 

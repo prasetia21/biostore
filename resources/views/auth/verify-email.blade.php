@@ -73,7 +73,7 @@
         {{-- <script src="{{ asset('frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script> --}}
         <script src="{{ asset('frontend/assets/js/vendor/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('frontend/assets/js/plugins/slick.js') }}"></script>
-        <script src="{{ asset('frontend/assets/js/plugins/jquery.syotimer.min.js') }}"></script>
+        {{-- <script src="{{ asset('frontend/assets/js/plugins/jquery.syotimer.min.js') }}"></script> --}}
         <script src="{{ asset('frontend/assets/js/plugins/waypoints.js') }}"></script>
         <script src="{{ asset('frontend/assets/js/plugins/wow.js') }}"></script>
         <script src="{{ asset('frontend/assets/js/plugins/perfect-scrollbar.js') }}"></script>

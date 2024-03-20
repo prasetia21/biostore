@@ -138,7 +138,6 @@ class CheckoutController extends Controller
         // ambil data dari body
         $data = $request->all();
 
-
         // cek validasi data, import terlebih dahulu Validator, use Illuminate\Support\Facades\Validator;
         $validator = Validator::make($data, $validatedData);
 
@@ -281,8 +280,8 @@ class CheckoutController extends Controller
             'email' => $invoice->shipping_email,
         ];
 
-        // Mail::to($shipping_email)->send(new OrderMail($data));
-        // Mail::to($origin_email)->send(new OrderMail($data));
+        Mail::to($origin_email)->send(new OrderMail($data));
+        Mail::to($shipping_email)->send(new OrderMail($data));
 
         $carts = Cart::content();
 
@@ -407,6 +406,8 @@ class CheckoutController extends Controller
                     OrderNinja::where('id', $order->id)->update([
                         'tracking_number' => $tid,
                     ]);
+
+                    $rtn = $requested_tracking_number;
                     
                     if (Session::has('coupon')) {
                         Session::forget('coupon');
@@ -416,11 +417,12 @@ class CheckoutController extends Controller
 
                     toastr()->success('Pesanan Berhasil Dibuat!!!');
 
-                    return response()->json([
+                    return redirect()->route('dashboard', [
                         'success' => true,
-                        'message' => 'Request successful!',
-                        'data' => $responseBody,
-                    ], 200)->header('Location', route('dashboard'));
+                        'message' => 'Pesanan berhasil dibuat!',
+                        'data' => $rtn,
+                    ]);
+
                 } else {
                     // Retry logic
                     if ($retryCount < $maxRetries) {

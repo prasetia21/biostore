@@ -26,21 +26,18 @@ class WishlistController extends Controller
                 return response()->json(['success' => 'Berhasil Ditambahkan di Daftar Keinginan']);
             } else {
                 return response()->json(['error' => 'Produk Sudah Ada di Daftar Keinginan']);
-
             }
-
         } else {
             return response()->json(['error' => 'Harap Login Terlebih Dahulu!!!']);
         }
-
     } // End Method 
 
 
     public function AllWishlist()
     {
+        dd(Auth::check());
 
         return view('frontend.wishlist.view_wishlist');
-
     } // End Method 
 
 
@@ -52,7 +49,6 @@ class WishlistController extends Controller
         $wishQty = wishlist::count();
 
         return response()->json(['wishlist' => $wishlist, 'wishQty' => $wishQty]);
-
     } // End Method
 
 

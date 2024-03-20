@@ -250,8 +250,6 @@ class CartGuestController extends Controller
 
     public function CouponApply(Request $request)
     {
-
-
         $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))->first();
 
         if ($coupon) {
@@ -337,8 +335,8 @@ class CartGuestController extends Controller
         if (Cart::total() > 0) {
 
             if (Session::has('coupon')) {
-
-                $provinces = RajaProvince::pluck('name', 'raja_province_id');
+                $provinces = NinjaProvince::pluck('name', 'id');
+                // $provinces = RajaProvince::pluck('name', 'raja_province_id');
                 $carts = Cart::content();
                 $cartQty = Cart::count();
                 $cartTotal = session()->get('coupon')['total_amount'];
@@ -374,8 +372,8 @@ class CartGuestController extends Controller
     public function CheckoutCoupon()
     {
         if (Cart::total() > 0) {
-
-            $provinces = RajaProvince::pluck('name', 'raja_province_id');
+            $provinces = NinjaProvince::pluck('name', 'id');
+            // $provinces = RajaProvince::pluck('name', 'raja_province_id');
             $carts = Cart::content();
             $cartQty = Cart::count();
             $cartTotal = Cart::total();

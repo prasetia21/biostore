@@ -1,3 +1,7 @@
+@section('title')
+    Halaman Login
+@endsection
+
 @include('auth.head')
 
 <body>

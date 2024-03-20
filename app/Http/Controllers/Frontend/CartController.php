@@ -12,6 +12,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\Product;
 use App\Models\Coupon;
+use App\Models\NinjaDistrict;
+use App\Models\NinjaProvince;
 use App\Models\NinjaRegency;
 use App\Models\ShippingAddress;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -337,24 +339,29 @@ class CartController extends Controller
 
                 $address = ShippingAddress::where('user_id', Auth::id())->count();
 
+                
+
                 if ($address > 0) {
 
                     if (Session::has('coupon')) {
-                        $provinces = RajaProvince::pluck('name', 'raja_province_id');
+                        $provinces = NinjaProvince::pluck('name', 'id');
                         $carts = Cart::content();
                         $cartQty = Cart::count();
                         $cartTotal = session()->get('coupon')['total_amount'];
                         $address = ShippingAddress::where('user_id', Auth::id())->first();
+                        $kode = NinjaDistrict::where('id', $address->ninja_district_id)->first();
 
-                        return view('frontend.checkout.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces', 'address'));
+                        return view('frontend.checkout.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces', 'address', 'kode'));
                     } else {
-                        $provinces = RajaProvince::pluck('name', 'raja_province_id');
+                        $provinces = NinjaProvince::pluck('name', 'id');
                         $carts = Cart::content();
                         $cartQty = Cart::count();
                         $cartTotal = Cart::total();
-                        $address = ShippingAddress::where('user_id', Auth::id())->first();
-
-                        return view('frontend.checkout.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces', 'address'));
+                        $address = ShippingAddress::with('province')->with('city')->with('district')->where('user_id', Auth::id())->first();
+                
+                        $kode = NinjaDistrict::where('id', $address->ninja_district_id)->first();
+                    
+                        return view('frontend.checkout.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'provinces', 'address', 'kode'));
                     }
                 } else {
 

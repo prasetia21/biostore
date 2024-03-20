@@ -12,11 +12,15 @@ class ShippingAddress extends Model
     protected $guarded = [];
 
     public function province(){
-        return $this->belongsTo(RajaProvince::class,'raja_province_id','id');
+        return $this->belongsTo(NinjaProvince::class,'ninja_province_id','id');
     }
 
      public function city(){
-        return $this->belongsTo(RajaCity::class,'city_id','id');
+        return $this->belongsTo(NinjaRegency::class,'ninja_regency_id','id');
+    }
+
+    public function district(){
+        return $this->belongsTo(NinjaDistrict::class,'ninja_district_id','id');
     }
 
     public function user(){

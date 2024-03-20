@@ -504,118 +504,6 @@
     <!--  /// End Wishlist Add -->
 
 
-
-    <!--  /// Start Load Wishlist Data -->
-    <script type="text/javascript">
-        function wishlist() {
-            $.ajax({
-                type: "GET",
-                dataType: 'json',
-                url: "/guest/get-wishlist-product/",
-
-                success: function(response) {
-
-                    $('#wishQty').text(response.wishQty);
-
-                    var rows = ""
-                    $.each(response.wishlist, function(key, value) {
-
-                        rows += `<tr class="pt-30">
-                        <td class="custome-checkbox pl-30">
-                            
-                        </td>
-                        <td class="image product-thumbnail pt-40"><img src="/${value.product.product_thumbnail}" alt="#" /></td>
-                        <td class="product-des product-name">
-                            <h6><a class="product-name mb-10">${value.product.product_name} </a></h6>
-                            <div class="product-rate-cover">
-                                <div class="product-rate d-inline-block">
-                                    <div class="product-rating" style="width: 90%"></div>
-                                </div>
-                                <span class="font-small ml-5 text-muted"> (4.0)</span>
-                            </div>
-                        </td>
-                        <td class="price" data-title="Price">
-                        ${value.product.discount_price == null
-                        ? `<h6 class="text-brand">Rp.${value.product.selling_price}</h6>`
-                        :`<h6 class="text-brand">Rp.${value.product.discount_price}</h6>`
-
-                        }
-                            
-                        </td>
-                        <td class="text-center detail-info" data-title="Stock">
-                            ${value.product.product_qty > 0 
-                                ? `<span class="stock-status in-stock mb-0"> In Stock </span>`
-
-                                :`<span class="stock-status out-stock mb-0">Stock Out </span>`
-
-                            } 
-                           
-                        </td>
-                       
-                        <td class="action text-center" data-title="Remove">
-                            <a type="submit" class="text-body" id="${value.id}" onclick="wishlistRemove(this.id)" ><i class="fi-rs-trash"></i></a>
-                        </td>
-                    </tr> `
-
-                    });
-
-                    $('#wishlist').html(rows);
-
-                }
-            })
-        }
-
-        wishlist();
-
-        // / End Load Wishlist Data -->
-
-        // Wishlist Remove Start 
-
-        function wishlistRemove(id) {
-            $.ajax({
-                type: "GET",
-                dataType: 'json',
-                url: "/guest/wishlist-remove/" + id,
-
-                success: function(data) {
-                    wishlist();
-                    // Start Message 
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-
-                        showConfirmButton: false,
-                        timer: 3000
-                    })
-                    if ($.isEmptyObject(data.error)) {
-
-                        Toast.fire({
-                            type: 'success',
-                            icon: 'success',
-                            title: data.success,
-                        })
-
-                    } else {
-
-                        Toast.fire({
-                            type: 'error',
-                            icon: 'error',
-                            title: data.error,
-                        })
-                    }
-
-                    // End Message  
-
-
-                }
-            })
-        }
-
-
-        // Wishlist Remove End
-    </script>
-
     <!--  // Start Load MY Cart // -->
     <script type="text/javascript">
         function cart() {
@@ -759,6 +647,7 @@
     <script type="text/javascript">
         function applyCoupon() {
             var coupon_name = $('#coupon_name').val();
+            
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -774,7 +663,6 @@
                     if (data.validity == true) {
                         $('#couponField').hide();
                     }
-
 
                     // Start Message 
 

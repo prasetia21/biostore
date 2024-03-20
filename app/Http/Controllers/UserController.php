@@ -56,8 +56,9 @@ class UserController extends Controller
 
         ShippingAddress::insert([
             'user_id' => $request->user_id,
-            'raja_province_id' => $request->province_destination,
-            'city_id' => $request->city_destination,
+            'ninja_province_id' => $request->province_destination,
+            'ninja_regency_id' => $request->city_destination,
+            'ninja_district_id' => $request->kecamatan_destination,
             'phone' => $request->phone,
             'address' => $request->address,
             'post_code' => $request->post_code,
@@ -79,8 +80,9 @@ class UserController extends Controller
 
 
         $data->phone = $request->phone;
-        $data->raja_province_id = $request->province_destination;
-        $data->city_id = $request->city_destination;
+        $data->ninja_province_id = $request->province_destination;
+        $data->ninja_regency_id = $request->city_destination;
+        $data->ninja_district_id = $request->kecamatan_destination;
         $data->address = $request->address;
         $data->post_code = $request->post_code;
         $data->note = $request->note;

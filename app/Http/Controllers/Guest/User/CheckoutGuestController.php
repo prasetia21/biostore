@@ -81,7 +81,7 @@ class CheckoutGuestController extends Controller
         $data = $responseData["data"];
 
 
-        $data_order = OrderNinja::where('requested_tracking_number', $data['requested_tracking_number'])->first();
+        $data_order = OrderNinja::where('requested_tracking_number', $data)->first();
         $guestData = Guest::find($data_order->guest_id);
         
 
@@ -404,7 +404,7 @@ class CheckoutGuestController extends Controller
 
                     return redirect()->route('guest.order.detail', [
                         'success' => true,
-                        'message' => 'Data berhasil disimpan!',
+                        'message' => 'Pesanan berhasil dibuat!',
                         'data' => $rtn,
                     ]);
 

@@ -52,7 +52,7 @@ class OrderController extends Controller
 
     public function AdminConfirmedOrder()
     {
-        $orders = OrderNinja::where('status', 'confirm')->orderBy('id', 'DESC')->get();
+        $orders = OrderNinja::whereIn('status',  ['confirm', 'Pending Pickup'])->orderBy('id', 'DESC')->get();
         return view('backend.orders.confirmed_orders', compact('orders'));
     } // End Method 
 

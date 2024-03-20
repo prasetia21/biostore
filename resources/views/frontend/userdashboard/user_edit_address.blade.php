@@ -75,7 +75,7 @@
                                                                 <label for="provinsi" class="form-label">Pilih Provinsi</label><br />
                                                                 <select class="form-control provinsi-tujuan" name="province_destination"
                                                                     id="provinsi" required>
-                                                                    <option value="{{ !empty($address->raja_province_id) ? $address->raja_province_id : '-' }}">{{ !empty($addressProvince->province->name) ? $addressProvince->province->name : '-' }}</option>
+                                                                    <option value="{{ !empty($address->ninja_province_id) ? $address->ninja_province_id : '-' }}">{{ !empty($addressProvince->name) ? $addressProvince->name : '-' }}</option>
                                                                     @foreach ($provinces as $province => $value)
                                                                         <option value="{{ $province ?? '' }}">{{ $value ?? '' }}</option>
                                                                     @endforeach
@@ -85,7 +85,15 @@
                                                                 <label for="kota" class="form-label">Pilih Kota / Kabupaten</label><br />
                                                                 <select class="form-control kota-tujuan" name="city_destination" id="kota"
                                                                     required>
-                                                                    <option value="{{ !empty($address->city_id) ? $address->city_id : '-' }}">{{ !empty($addressCity->name) ? $addressCity->name : '-' }}</option>
+                                                                    <option value="{{ !empty($address->ninja_regency_id) ? $address->ninja_regency_id : '-' }}">{{ !empty($addressCity->name) ? $addressCity->name : '-' }}</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group col-lg-12 mt-40">
+                                                                <label for="kecamatan_" class="form-label">Pilih Kecamatan...</label><br />
+                                                                <select class="form-control kecamatan-tujuan" name="kecamatan_destination" id="kota"
+                                                                    required>
+                                                                    <option value="{{ !empty($address->ninja_district_id) ? $address->ninja_district_id : '-' }}">{{ !empty($addressDistrict->name) ? $addressDistrict->name : '-' }}</option>
                                                                 </select>
                                                             </div>
                                                         </div>
