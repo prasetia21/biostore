@@ -40,8 +40,8 @@ use App\Http\Controllers\User\AllUserController;
 
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\Auth\OauthLoginController;
-
-
+use App\Http\Controllers\Backend\GudangController;
+use App\Http\Controllers\Backend\PaketController;
 use App\Http\Controllers\Guest\Frontend\IndexGuestController;
 use App\Http\Controllers\Guest\Frontend\CartGuestController;
 use App\Http\Controllers\Guest\Frontend\ShopGuestController;
@@ -172,6 +172,21 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/product/stock', 'ProductStock')->name('product.stock');
     });
 
+    Route::controller(PaketController::class)->group(function () {
+        Route::get('/all/paket', 'AllPaket')->name('all.paket');
+        Route::get('/add/paket', 'AddPaket')->name('add.paket');
+        Route::post('/store/paket', 'StorePaket')->name('store.paket');
+        Route::get('/edit/paket/{id}', 'EditPaket')->name('edit.paket');
+    });
+
+    Route::controller(GudangController::class)->group(function () {
+        Route::get('/all/gudang', 'AllGudang')->name('all.gudang');
+        Route::get('/add/gudang', 'AddGudang')->name('add.gudang');
+        Route::post('/store/gudang', 'StoreGudang')->name('store.gudang');
+        Route::get('/edit/gudang/{id}', 'EditGudang')->name('edit.gudang');
+        Route::get('/delete/gudang/{id}', 'DeleteGudang')->name('delete.gudang');
+    });
+
     // Slider All Route 
     Route::controller(SliderController::class)->group(function () {
         Route::get('/all/slider', 'AllSlider')->name('all.slider');
@@ -266,7 +281,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/processing/order', 'AdminProcessingOrder')->name('admin.processing.order');
         Route::get('/admin/delivered/order', 'AdminDeliveredOrder')->name('admin.delivered.order');
         Route::get('/pending/confirm/{order_id}', 'PendingToConfirm')->name('pending-confirm');
-        
+
         Route::get('/processing/delivered/{order_id}', 'ProcessToDelivered')->name('processing-delivered');
         Route::get('/admin/invoice/download/{order_id}', 'AdminInvoiceDownload')->name('admin.invoice.download');
     });
@@ -456,7 +471,7 @@ Route::middleware(['auth', 'role:user', 'verified'])->group(function () {
         Route::post('/checkout/store', 'CheckoutStore')->name('checkout.store');
     });
 
-    
+
 
     // User Dashboard All Route 
     Route::controller(AllUserController::class)->group(function () {
@@ -513,9 +528,8 @@ Route::middleware(['guest'])->group(function () {
         Route::get('/guest/regency-get/ajax/{district_id}', 'RegencyGetAjax');
         Route::post('/guest/checkout/store', 'CheckoutStore')->name('checkout.store.guest');
         Route::get('/guest/order/inv', 'GuestData')->name('guest.order.detail');
-        
     });
-    
+
     // User Dashboard All Route 
     Route::controller(AllGuestController::class)->group(function () {
         // Order Tracking 
@@ -542,6 +556,8 @@ Route::middleware(['guest'])->group(function () {
     });
 
     Route::get('/guest/product/details/{slug}-{id}.html', [IndexGuestController::class, 'ProductDetails'])
+        ->where(['slug' => '([a-z\-]+)']);
+    Route::get('/guest/paket/{slug}-{id}.html', [IndexGuestController::class, 'BundlingDetails'])
         ->where(['slug' => '([a-z\-]+)']);
     Route::get('/guest/product/category/{slug}-{id}.html', [IndexGuestController::class, 'CatWiseProduct'])
         ->where(['slug' => '([a-z\-]+)']);

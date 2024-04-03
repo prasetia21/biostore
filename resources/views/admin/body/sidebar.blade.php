@@ -114,6 +114,20 @@
 
         <li>
             <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="lni lni-fresh-juice"></i>
+                </div>
+                <div class="menu-title">Bundling Produk</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('all.paket') }}"><i class="bx bx-right-arrow-alt"></i>Lihat Paket Bundling</a>
+                </li>
+                <li> <a href="{{ route('add.paket') }}"><i class="bx bx-right-arrow-alt"></i>Tambah Paket Bundling</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="lni lni-cart-full"></i>
                 </div>
                 <div class="menu-title">Stok</div>
@@ -199,6 +213,23 @@
                 </li>
                 <li> <a href="{{ route('all.district') }}"><i class="bx bx-right-arrow-alt"></i>Distrik</a>
                 </li> --}}
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="lni lni-map"></i>
+                </div>
+                <div class="menu-title">Gudang</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('all.gudang') }}"><i class="bx bx-right-arrow-alt"></i>List Gudang</a>
+                </li>
+
+                <li> <a href="{{ route('add.gudang') }}"><i class="bx bx-right-arrow-alt"></i>Tambah Gudang</a>
+                </li>
+
+               
             </ul>
         </li>
 

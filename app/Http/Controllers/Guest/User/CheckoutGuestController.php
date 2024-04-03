@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Guest\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\GetOrderMailGuest;
 use Illuminate\Http\Request;
 use App\Models\District;
 use App\Models\Guest;
 use App\Models\OrderNinja;
 use App\Models\Regency;
 use Carbon\Carbon;
-use App\Mail\OrderMail;
+use App\Mail\OrderMailGuest;
 use App\Models\OrderItem;
 use App\Models\TokenNinja;
 use Exception;
@@ -256,18 +257,6 @@ class CheckoutGuestController extends Controller
             'status' => 'confirm',
         ]);
 
-        $invoice = OrderNinja::findOrFail($order->id);
-        $data = [
-            'invoice_no' => $invoice->requested_tracking_number,
-            'amount' => $total_amount,
-            'name' => $invoice->shipping_name,
-            'email' => $invoice->shipping_email,
-        ];
-
-        Mail::to($origin_email)->send(new OrderMail($data));
-        Mail::to($shipping_email)->send(new OrderMail($data));
-
-
         $carts = Cart::content();
 
         foreach ($carts as $cart) {
@@ -282,6 +271,25 @@ class CheckoutGuestController extends Controller
 
             ]);
         } // End Foreach
+
+        $invoice = OrderNinja::findOrFail($order->id);
+        $data = [
+            'order_ninja_id' => $order->id,
+            'invoice_no' => $invoice->requested_tracking_number,
+            'amount' => $total_amount,
+            'name' => $invoice->shipping_name,
+            'alamat' => $order->shipping_address1,
+            'telp' => $order->shipping_phone,
+            'email' => $invoice->shipping_email,
+            'kecamatan' => $order->kecamatan_destination,
+            'kota' => $order->city_destination,
+            'provinsi' => $order->province_destination,
+            'kode_pos' => $order->post_code_destination,
+            'metode' => $order->payment_type,
+        ];
+
+        Mail::to($origin_email)->send(new GetOrderMailGuest($data));
+        Mail::to($shipping_email)->send(new OrderMailGuest($data));
 
         $data = [
             'service_type' => $service_type,
@@ -322,7 +330,6 @@ class CheckoutGuestController extends Controller
             ],
             'parcel_job' => [
                 'is_pickup_required' => $is_pickup_required,
-                'pickup_address_id' => $pickup_address_id,
                 'pickup_service_type' => $pickup_service_type,
                 'pickup_service_level' => $pickup_service_level,
                 'cash_on_delivery' => (int) $cash_on_delivery,
@@ -402,23 +409,32 @@ class CheckoutGuestController extends Controller
 
                     toastr()->success('Pesanan Berhasil Dibuat!!!');
 
+                    // return response()->json(['success' => true, 'message' => 'Pesanan berhasil dibuat!',
+                    // 'data' => $payload], 200);
+
                     return redirect()->route('guest.order.detail', [
                         'success' => true,
                         'message' => 'Pesanan berhasil dibuat!',
                         'data' => $rtn,
                     ]);
 
+                } elseif ($response->getStatusCode() == 401) {
+                    toastr()->warning('Pesanan Anda Gagal Diproses!!!');
+                    return redirect()->route('home.guest', [
+                        'success' => false,
+                        'message' => 'Pesanan gagal dibuat!',
+                    ]);
                 } else {
                     // Retry logic
                     if ($retryCount < $maxRetries) {
                         continue;
                     } else {
                         // Error
-                        toastr()->success('Pesanan Anda Gagal Diproses!!!');
-                        return response()->json([
+                        toastr()->warning('Pesanan Anda Gagal Diproses!!!');
+                        return redirect()->route('home.guest', [
                             'success' => false,
                             'message' => 'Failed to create order and send to third-party API. Error: ' . $response->getStatusCode(),
-                        ], 500)->header('Location', route('home.guest'));
+                        ], 500);
                     }
                 }
             } while ($retryCount < $maxRetries);
@@ -777,7 +793,7 @@ class CheckoutGuestController extends Controller
     //             'name' => $invoice->shipping_name,
     //             'email' => $invoice->shipping_email,
     //         ];
-    //         Mail::to($request->shipping_email)->send(new OrderMail($data));
+    //         Mail::to($request->shipping_email)->send(new OrderMailGuest($data));
     //     } catch (Exception $e) {
     //         // Tangani error pengiriman email
     //         return response()->json([

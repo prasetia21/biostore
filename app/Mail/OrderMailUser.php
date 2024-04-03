@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\OrderItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderMail extends Mailable
+class OrderMailUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,6 +27,8 @@ class OrderMail extends Mailable
     public function build()
     {
         $order = $this->data;
-        return $this->from('projek.dev@gmail.com')->view('mail.order_mail',compact('order'))->subject('Email From Biovarnish Store');
+        $orderItem = OrderItem::where('order_ninja_id', $order['order_ninja_id'])->get();
+        
+        return $this->from('projek.dev@gmail.com')->view('mail.order_mail_user',compact('order', 'orderItem'))->subject('Pemesanan dari Biovarnish Store');
     }
 }

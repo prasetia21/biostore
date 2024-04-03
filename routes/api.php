@@ -40,20 +40,25 @@ Route::post('/webhook/cancelled', [WebhookController::class, 'cancelled']);
 Route::post('/webhook/pending-pickup', [WebhookController::class, 'pending_pickup']);
 Route::post('/webhook/success-pickup', [WebhookController::class, 'success_pickup']);
 Route::post('/webhook/fail-pickup', [WebhookController::class, 'fail_pickup']);
+
 Route::post('/webhook/receive_pending_reschedule', [WebhookController::class, 'receive_pending_reschedule']);
 Route::post('/webhook/rts', [WebhookController::class, 'rts']);
 Route::post('/webhook/returned_to_senders', [WebhookController::class, 'returned_to_senders']);
 Route::post('/webhook/returned_to_senders_trigger', [WebhookController::class, 'returned_to_senders_trigger']);
+
 Route::post('/webhook/en_route_sorting_hub', [WebhookController::class, 'en_route_sorting_hub']);
 Route::post('/webhook/arrive_sorting_hub', [WebhookController::class, 'arrive_sorting_hub']);
 Route::post('/webhook/on_vehiche_delivery', [WebhookController::class, 'on_vehiche_delivery']);
+Route::post('/webhook/arrive_distribution_point', [WebhookController::class, 'arrive_distribution_point']);
+Route::post('/webhook/selesai', [WebhookController::class, 'selesai']);
+Route::post('/webhook/pengiriman_berhasil', [WebhookController::class, 'pengiriman_berhasil']);
+
 Route::post('/webhook/pending_reschedule', [WebhookController::class, 'pending_reschedule']);
 Route::post('/webhook/delivery_fail', [WebhookController::class, 'delivery_fail']);
 Route::post('/webhook/delivery_rts', [WebhookController::class, 'delivery_rts']);
-Route::post('/webhook/arrive_distribution_point', [WebhookController::class, 'arrive_distribution_point']);
+
 Route::post('/webhook/berat_paket', [WebhookController::class, 'berat_paket']);
-Route::post('/webhook/selesai', [WebhookController::class, 'selesai']);
-Route::post('/webhook/pengiriman_berhasil', [WebhookController::class, 'pengiriman_berhasil']);
+
 
 
 

@@ -54,6 +54,25 @@ class IndexGuestController extends Controller
         return view('frontend.product.guest.product_details', compact('product', 'product_color', 'product_size', 'multiImage', 'relatedProduct'));
     } // End Method 
 
+    public function BundlingDetails(string $slug, int $id)
+    {
+
+        $product = Product::findOrFail($id);
+
+        $color = $product->product_color;
+        $product_color = explode(',', $color);
+
+        $size = $product->product_size;
+        $product_size = explode(',', $size);
+
+        $multiImage = MultiImg::where('product_id', $id)->get();
+
+        $cat_id = $product->category_id;
+        $relatedProduct = Product::where('category_id', $cat_id)->where('id', '!=', $id)->orderBy('id', 'DESC')->limit(4)->get();
+        
+        return view('frontend.promo.guest.bundling', compact('product', 'product_color', 'product_size', 'multiImage', 'relatedProduct'));
+    } // End Method 
+
     public function CatWiseProduct(Request $request, string $slug, int $id)
     {
         $products = Product::where('status', 1)->where('category_id', $id)->orderBy('id', 'DESC')->get();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\GetOrderMailUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -13,7 +14,7 @@ use App\Models\District;
 use App\Models\Regency;
 use App\Models\Guest;
 use App\Models\OrderNinja;
-use App\Mail\OrderMail;
+use App\Mail\OrderMailUser;
 use App\Models\OrderItem;
 use App\Models\TokenNinja;
 use Exception;
@@ -272,17 +273,6 @@ class CheckoutController extends Controller
             'status' => 'confirm',
         ]);
 
-        $invoice = OrderNinja::findOrFail($order->id);
-        $data = [
-            'invoice_no' => $invoice->requested_tracking_number,
-            'amount' => $total_amount,
-            'name' => $invoice->shipping_name,
-            'email' => $invoice->shipping_email,
-        ];
-
-        Mail::to($origin_email)->send(new OrderMail($data));
-        Mail::to($shipping_email)->send(new OrderMail($data));
-
         $carts = Cart::content();
 
         foreach ($carts as $cart) {
@@ -297,6 +287,28 @@ class CheckoutController extends Controller
 
             ]);
         } // End Foreach
+
+
+        $invoice = OrderNinja::findOrFail($order->id);
+        $data = [
+            'order_ninja_id' => $order->id,
+            'invoice_no' => $invoice->requested_tracking_number,
+            'amount' => $total_amount,
+            'name' => $invoice->shipping_name,
+            'alamat' => $order->shipping_address1,
+            'telp' => $order->shipping_phone,
+            'email' => $invoice->shipping_email,
+            'kecamatan' => $order->kecamatan_destination,
+            'kota' => $order->city_destination,
+            'provinsi' => $order->province_destination,
+            'kode_pos' => $order->post_code_destination,
+            'metode' => $order->payment_type,
+        ];
+
+        Mail::to($origin_email)->send(new GetOrderMailUser($data));
+        Mail::to($shipping_email)->send(new OrderMailUser($data));
+
+        
 
         $data = [
             'service_type' => $service_type,
@@ -337,7 +349,6 @@ class CheckoutController extends Controller
             ],
             'parcel_job' => [
                 'is_pickup_required' => $is_pickup_required,
-                'pickup_address_id' => $pickup_address_id,
                 'pickup_service_type' => $pickup_service_type,
                 'pickup_service_level' => $pickup_service_level,
                 'cash_on_delivery' => (int) $cash_on_delivery,
@@ -423,17 +434,23 @@ class CheckoutController extends Controller
                         'data' => $rtn,
                     ]);
 
+                } elseif ($response->getStatusCode() == 401) {
+                    toastr()->warning('Pesanan Anda Gagal Diproses!!!');
+                    return redirect()->route('home', [
+                        'success' => false,
+                        'message' => 'Pesanan gagal dibuat!',
+                    ]);
                 } else {
                     // Retry logic
                     if ($retryCount < $maxRetries) {
                         continue;
                     } else {
                         // Error
-                        toastr()->success('Pesanan Anda Gagal Diproses!!!');
-                        return response()->json([
+                        toastr()->warning('Pesanan Anda Gagal Diproses!!!');
+                        return redirect()->route('home', [
                             'success' => false,
                             'message' => 'Failed to create order and send to third-party API. Error: ' . $response->getStatusCode(),
-                        ], 500)->header('Location', route('dashboard'));
+                        ], 500);
                     }
                 }
             } while ($retryCount < $maxRetries);
@@ -444,17 +461,6 @@ class CheckoutController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-
-
-        if (Session::has('coupon')) {
-            Session::forget('coupon');
-        }
-
-        Cart::destroy();
-
-        toastr()->success('Pesanan Berhasil Dibuat!!!');
-
-        return redirect()->route('home.guest');
     }
 
     function formatPhoneNumber($number)
